@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private static Player _instance;
+
+    public static Player instance { get { return _instance; } }
+
     [SerializeField] Transform transformReference;
 
     Transform playerSpawn;
@@ -16,17 +20,26 @@ public class Player : MonoBehaviour
 
     private float horizontal, vertical;
 
-    void Awake()
+    public bool fall, finish = false;
+
+    private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
-        playerSpawn = GameObject.FindWithTag("Spawn").transform;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rb.position = playerSpawn.position;
     }
 
     // Update is called once per frame
@@ -55,9 +68,11 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("DeathTrigger"))
         {
-            transform.position = playerSpawn.position;
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            fall = true;
+        }
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            finish = true;
         }
     }
 }
