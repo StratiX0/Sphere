@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using TMPro;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -14,6 +16,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Timer")]
     [SerializeField] Timer timer;
+
+    [Header("Fall")]
+    [SerializeField] int fallCount = 0;
+    [SerializeField] TextMeshProUGUI UiFallCountTtext;
 
     private void Awake()
     {
@@ -46,6 +52,8 @@ public class GameManager : MonoBehaviour
             player.transform.position = playerSpawn.position;
             playerRb.velocity = Vector3.zero;
             playerRb.angularVelocity = Vector3.zero;
+            fallCount++;
+            UiFallCountTtext.text = fallCount.ToString();
             player.fall = false;
         }
     }

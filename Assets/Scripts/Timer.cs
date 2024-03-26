@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using TMPro;
 
 public class Timer : MonoBehaviour
 {
     public static Timer instance;
 
-    public float time = 0;
+    public float time = 0.0f;
 
     public bool stopTimer = false;
 
-    public TextMeshProUGUI UiTimerText;
+    [SerializeField] TextMeshProUGUI UiTimerText;
 
     private void Awake()
     {
@@ -45,7 +46,7 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(time - minutes * 60);
         int milliseconds = Mathf.FloorToInt((time - minutes * 60 - seconds) * 1000);
 
-        string format = string.Format("{0:0}:{1:00}.{2:000}", minutes, seconds, milliseconds);
+        string format = string.Format("{0:00}:{1:00}.{2:000}", minutes, seconds, milliseconds);
 
         UiTimerText.text = format;
     }
