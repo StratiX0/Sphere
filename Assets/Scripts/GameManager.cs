@@ -12,11 +12,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Transform playerSpawn;
 
+    [Header("Timer")]
+    [SerializeField] Timer timer;
+
     private void Awake()
     {
         instance = this;
-
-
     }
 
     // Start is called before the first frame update
@@ -25,6 +26,9 @@ public class GameManager : MonoBehaviour
         player = Player.instance;
         playerSpawn = GameObject.FindWithTag("Spawn").transform;
         playerRb = player.GetComponent<Rigidbody>();
+
+        timer = Timer.instance;
+
         playerRb.position = playerSpawn.position;
     }
 
@@ -35,11 +39,6 @@ public class GameManager : MonoBehaviour
         Finish();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-    }
-
     private void PlayerRespawn()
     {
         if (player.fall)
@@ -47,7 +46,6 @@ public class GameManager : MonoBehaviour
             player.transform.position = playerSpawn.position;
             playerRb.velocity = Vector3.zero;
             playerRb.angularVelocity = Vector3.zero;
-            Debug.Log("Player Respawned");
             player.fall = false;
         }
     }
@@ -56,8 +54,9 @@ public class GameManager : MonoBehaviour
     {
         if (player.finish)
         {
-            Debug.Log("Finish");
             player.finish = false;
+            timer.stopTimer = true;
+            Debug.Log(timer.time);
         }
     }
 }

@@ -66,10 +66,20 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        CheckFall(other);
+        CheckFinish(other);
+    }
+
+    private void CheckFall(Collider other)
+    {
         if (other.gameObject.CompareTag("DeathTrigger"))
         {
             fall = true;
         }
+    }
+
+    private void CheckFinish(Collider other)
+    {
         if (other.gameObject.CompareTag("Finish"))
         {
             finish = true;
