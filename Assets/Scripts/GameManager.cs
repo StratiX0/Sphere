@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] int fallCount = 0;
     [SerializeField] TextMeshProUGUI UiFallCountTtext;
 
+    [Header("Menu")]
+    [SerializeField] GameObject menu;
+    [SerializeField] GameObject Ui;
+    private bool menuActive;
+
     private void Awake()
     {
         instance = this;
@@ -36,6 +41,11 @@ public class GameManager : MonoBehaviour
         timer = Timer.instance;
 
         playerRb.position = playerSpawn.position;
+
+        menu = GameObject.FindWithTag("Menu");
+        menu.SetActive(false);
+        menuActive = false;
+        Ui = GameObject.FindWithTag("Ui");
     }
 
     // Update is called once per frame
@@ -43,6 +53,8 @@ public class GameManager : MonoBehaviour
     {
         PlayerRespawn();
         Finish();
+
+        MenuManager();
     }
 
     private void PlayerRespawn()
@@ -65,6 +77,31 @@ public class GameManager : MonoBehaviour
             player.finish = false;
             timer.stopTimer = true;
             Debug.Log(timer.time);
+        }
+    }
+
+    private void MenuManager()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !menuActive)
+        {
+            menu.SetActive(true);
+            Ui.SetActive(false);
+            menuActive = true;
+            Time.timeScale = 0;
+        }
+        else if (menuActive)
+        {
+            Ui.SetActive(true);
+            menuActive = false;
+        }
+
+        if (menuActive)
+        {
+            
+        }
+        if (!menuActive)
+        {
+            Time.timeScale = 1;
         }
     }
 }

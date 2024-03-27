@@ -6,6 +6,8 @@ TagManager:
   tags:
   - DeathTrigger
   - Spawn
+  - Menu
+  - Ui
   layers:
   - Default
   - TransparentFX
