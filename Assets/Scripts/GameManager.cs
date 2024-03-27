@@ -49,9 +49,9 @@ public class GameManager : MonoBehaviour
     {
         if (player.fall)
         {
-            player.transform.position = playerSpawn.position;
             playerRb.velocity = Vector3.zero;
             playerRb.angularVelocity = Vector3.zero;
+            player.transform.position = playerSpawn.position;
             fallCount++;
             UiFallCountTtext.text = fallCount.ToString();
             player.fall = false;
