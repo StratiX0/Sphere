@@ -1429,6 +1429,7 @@ MonoBehaviour:
   UiFallCountTtext: {fileID: 156409408}
   menu: {fileID: 0}
   Ui: {fileID: 0}
+  isPaused: 0
 --- !u!4 &246530056
 Transform:
   m_ObjectHideFlags: 0
@@ -2555,9 +2556,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.73333335, g: 0.5254902, b: 0.7568628, a: 1}
-    m_HighlightedColor: {r: 0.654902, g: 0.44705883, b: 0.6784314, a: 1}
-    m_PressedColor: {r: 0.5372549, g: 0.32941177, b: 0.56078434, a: 1}
-    m_SelectedColor: {r: 0.5372549, g: 0.32941177, b: 0.56078434, a: 1}
+    m_HighlightedColor: {r: 0.5764706, g: 0.36862746, b: 0.6, a: 1}
+    m_PressedColor: {r: 0.45882353, g: 0.2509804, b: 0.48235294, a: 1}
+    m_SelectedColor: {r: 0.73333335, g: 0.5254902, b: 0.75686276, a: 1}
     m_DisabledColor: {r: 0.73333335, g: 0.5254902, b: 0.75686276, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2581,6 +2582,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 246530055}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ContinueGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

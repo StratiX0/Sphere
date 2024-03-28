@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [Header("Menu")]
     [SerializeField] GameObject menu;
     [SerializeField] GameObject Ui;
-    private bool menuActive;
+    [SerializeField] bool isPaused;
 
     private void Awake()
     {
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
         menu = GameObject.FindWithTag("Menu");
         menu.SetActive(false);
-        menuActive = false;
+        isPaused = false;
         Ui = GameObject.FindWithTag("Ui");
     }
 
@@ -54,7 +54,10 @@ public class GameManager : MonoBehaviour
         PlayerRespawn();
         Finish();
 
-        MenuManager();
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        {
+            PauseGame();
+        }
     }
 
     private void PlayerRespawn()
@@ -80,28 +83,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void MenuManager()
+    public void ContinueGame()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !menuActive)
-        {
-            menu.SetActive(true);
-            Ui.SetActive(false);
-            menuActive = true;
-            Time.timeScale = 0;
-        }
-        else if (menuActive)
-        {
-            Ui.SetActive(true);
-            menuActive = false;
-        }
+        Time.timeScale = 1;
+        Ui.SetActive(true);
+        menu.SetActive(false);
+        isPaused = false;
+    }
 
-        if (menuActive)
-        {
-            
-        }
-        if (!menuActive)
-        {
-            Time.timeScale = 1;
-        }
+    public void PauseGame()
+    {
+        isPaused = true;
+        menu.SetActive(true);
+        Ui.SetActive(false);
+        Time.timeScale = 0;
     }
 }
