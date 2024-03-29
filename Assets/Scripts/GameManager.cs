@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using TMPro;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,11 +12,11 @@ public class GameManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] Player player;
     [SerializeField] Rigidbody playerRb;
-
     [SerializeField] Transform playerSpawn;
 
     [Header("Timer")]
     [SerializeField] Timer timer;
+    [SerializeField] TextMeshProUGUI startCountdown;
 
     [Header("Fall")]
     [SerializeField] int fallCount = 0;
@@ -24,9 +25,11 @@ public class GameManager : MonoBehaviour
     [Header("Start")]
     [SerializeField] bool start;
     [SerializeField] float delayOnStart;
+
     private void Awake()
     {
         instance = this;
+        Time.timeScale = 0;
     }
 
     // Start is called before the first frame update
@@ -38,8 +41,7 @@ public class GameManager : MonoBehaviour
 
         playerRb.position = playerSpawn.position;
 
-        
-        Time.timeScale = 0;
+        timer = Timer.instance;
 
         start = true;
     }
@@ -50,12 +52,16 @@ public class GameManager : MonoBehaviour
         if (start && delayOnStart > 0)
         {
             delayOnStart -= Time.unscaledDeltaTime;
+            int delay = Mathf.CeilToInt(delayOnStart);
+            startCountdown.text = delay.ToString();
+            timer.ResetTimer();
         }
         else if (start && delayOnStart <= 0)
         {
+            startCountdown.gameObject.SetActive(false);
             start = false;
             Time.timeScale = 1;
-            timer = Timer.instance;
+            timer.ResetTimer();
         }
 
         PlayerRespawn();

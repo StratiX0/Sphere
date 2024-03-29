@@ -50,4 +50,9 @@ public class Timer : MonoBehaviour
 
         UiTimerText.text = format;
     }
+
+    public void ResetTimer()
+    {
+        time = 0.0f;
+    }
 }
