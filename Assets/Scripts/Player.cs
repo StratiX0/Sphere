@@ -22,6 +22,9 @@ public class Player : MonoBehaviour
 
     public bool fall, finish = false;
 
+    [SerializeField] Vector3 cameraPosition;
+    [SerializeField] Quaternion cameraAngle;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -45,8 +48,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cam.transform.rotation = Quaternion.Euler(15, 0, 0);
-        cam.transform.position = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z - 5);
+        cam.transform.rotation = cameraAngle;
+        cam.transform.position = new Vector3(transform.position.x + cameraPosition.x, transform.position.y + cameraPosition.y, transform.position.z + cameraPosition.z);
 
         if (Input.GetAxis("Horizontal") != 0)
         {
