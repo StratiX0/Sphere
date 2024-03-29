@@ -49,9 +49,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerCamera.transform.rotation = defineCameraAngle;
-        playerCamera.transform.position = new Vector3(transform.position.x + defineCameraPosition.x, transform.position.y + defineCameraPosition.y, transform.position.z + defineCameraPosition.z);
-
+        playerCamera.transform.SetPositionAndRotation(new Vector3(transform.position.x + defineCameraPosition.x,
+            transform.position.y + defineCameraPosition.y,transform.position.z + defineCameraPosition.z), defineCameraAngle);
         CheckPlayerInput();
     }
 
@@ -97,7 +96,7 @@ public class Player : MonoBehaviour
     // Move the player based on the player's input
     private void HandleMovement()
     {
-        rb.AddForce(referenceTransform.right * horizontalInput * playerSpeed);
-        rb.AddForce(referenceTransform.forward * verticalInput * playerSpeed);
+        rb.AddForce(playerSpeed * horizontalInput * referenceTransform.right);
+        rb.AddForce(playerSpeed * verticalInput * referenceTransform.forward);
     }
 }
