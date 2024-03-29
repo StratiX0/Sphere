@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cylinder : MonoBehaviour
 {
-    // Start is called before the first frame update
+    
 
     private int randomDirection;
 
@@ -12,6 +12,7 @@ public class Cylinder : MonoBehaviour
 
     Rigidbody rb;
 
+    // Start is called before the first frame update
     void Start()
     {
         RandomDirection();

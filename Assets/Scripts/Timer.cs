@@ -6,7 +6,7 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    public static Timer instance;
+    public static Timer Instance;
 
     public float time = 0.0f;
 
@@ -16,7 +16,7 @@ public class Timer : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
 
     // Start is called before the first frame update

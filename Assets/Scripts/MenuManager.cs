@@ -33,7 +33,7 @@ public class MenuManager : MonoBehaviour
     {
         switch (SceneManager.GetActiveScene().name)
         {
-            case "Menu":
+            case "Main Menu":
                 break;
             case "Level 01":
                 if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
@@ -46,7 +46,6 @@ public class MenuManager : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene("Level 01");
-        Time.timeScale = 1;
     }
     public void ContinueGame()
     {
@@ -58,10 +57,10 @@ public class MenuManager : MonoBehaviour
 
     public void PauseGame()
     {
+        Time.timeScale = 0;
         isPaused = true;
         menu.SetActive(true);
         Ui.SetActive(false);
-        Time.timeScale = 0;
     }
 
     public void QuitGame()

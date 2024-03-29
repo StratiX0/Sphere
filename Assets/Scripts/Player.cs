@@ -4,40 +4,41 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private static Player _instance;
+    // Create a static instance of the Player class
+    private static Player _Instance;
+    public static Player Instance { get { return _Instance; } }
 
-    public static Player instance { get { return _instance; } }
+    // Create a reference to the player's settings
+    [Header("Player Settings")]
+    [SerializeField] Transform referenceTransform;
+    [SerializeField] float playerSpeed;
+    [SerializeField] Vector3 defineCameraPosition;
+    [SerializeField] Quaternion defineCameraAngle;
 
-    [SerializeField] Transform transformReference;
+    // Create a reference to the player's state
+    [Header("Player State")]
+    [SerializeField] public bool hasFallen;
+    [SerializeField] public bool hasFinished;
 
-    Transform playerSpawn;
+    private Rigidbody rb;
+    private Camera playerCamera;
+    private float horizontalInput, verticalInput;
 
-    Rigidbody rb;
-
-    Camera cam;
-
-    [SerializeField] float speed;
-
-    private float horizontal, vertical;
-
-    public bool fall, finish = false;
-
-    [SerializeField] Vector3 cameraPosition;
-    [SerializeField] Quaternion cameraAngle;
-
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        // Check if there is already an instance of Player
+        if (_Instance != null && _Instance != this)
         {
-            Destroy(this.gameObject);
+            Destroy(this.gameObject); // If there is an instance of Player that is not this, destroy it
         }
         else
         {
-            _instance = this;
+            _Instance = this; // If there is no instance of Player, set this as the instance
         }
 
         rb = GetComponent<Rigidbody>();
-        cam = Camera.main;
+        playerCamera = Camera.main;
     }
 
     // Start is called before the first frame update
@@ -48,23 +49,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cam.transform.rotation = cameraAngle;
-        cam.transform.position = new Vector3(transform.position.x + cameraPosition.x, transform.position.y + cameraPosition.y, transform.position.z + cameraPosition.z);
+        playerCamera.transform.rotation = defineCameraAngle;
+        playerCamera.transform.position = new Vector3(transform.position.x + defineCameraPosition.x, transform.position.y + defineCameraPosition.y, transform.position.z + defineCameraPosition.z);
 
-        if (Input.GetAxis("Horizontal") != 0)
-        {
-            horizontal = Input.GetAxis("Horizontal");
-        }
-        if (Input.GetAxis("Vertical") != 0)
-        {
-            vertical = Input.GetAxis("Vertical");
-        }
+        CheckPlayerInput();
     }
 
     private void FixedUpdate()
     {
-        rb.AddForce(transformReference.right * horizontal * speed);
-        rb.AddForce(transformReference.forward * vertical * speed);
+        HandleMovement();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -73,11 +66,23 @@ public class Player : MonoBehaviour
         CheckFinish(other);
     }
 
+    private void CheckPlayerInput()
+    {
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            horizontalInput = Input.GetAxis("Horizontal");
+        }
+        if (Input.GetAxis("Vertical") != 0)
+        {
+            verticalInput = Input.GetAxis("Vertical");
+        }
+    }
+
     private void CheckFall(Collider other)
     {
         if (other.gameObject.CompareTag("DeathTrigger"))
         {
-            fall = true;
+            hasFallen = true;
         }
     }
 
@@ -85,7 +90,14 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Finish"))
         {
-            finish = true;
+            hasFinished = true;
         }
+    }
+
+    // Move the player based on the player's input
+    private void HandleMovement()
+    {
+        rb.AddForce(referenceTransform.right * horizontalInput * playerSpeed);
+        rb.AddForce(referenceTransform.forward * verticalInput * playerSpeed);
     }
 }
