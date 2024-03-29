@@ -17,8 +17,8 @@ public class Player : MonoBehaviour
 
     // Create a reference to the player's state
     [Header("Player State")]
-    [SerializeField] public bool hasFallen;
-    [SerializeField] public bool hasFinished;
+    public bool hasFallen;
+    public bool hasFinished;
 
     private Rigidbody rb;
     private Camera playerCamera;
