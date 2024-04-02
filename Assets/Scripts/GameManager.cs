@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
         playerRb.position = playerSpawn.position;
 
         timer = Timer.Instance;
+        timer.ResetTimer();
 
         startingGame = false;
         CountdownUi.text = countdownSentence;
@@ -130,6 +131,7 @@ public class GameManager : MonoBehaviour
             CountdownUi.text = countdownSentence;
             countdownTime = defaultCountdownTime;
             CountdownUi.gameObject.SetActive(true);
+            CountdownUi.alpha = 1;
 
             PlayerRespawn();
             player.hasFallen = false;
@@ -137,6 +139,7 @@ public class GameManager : MonoBehaviour
             fallCount = 0;
             definitiveFallCount = 0;
             fallCountUi.text = fallCount.ToString();
+            finishUi.gameObject.SetActive(false);
 
             restartingGame = false;
         }
