@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool startingGame;
     [SerializeField] float countdownTime;
     [SerializeField] string countdownSentence;
+    [SerializeField] string goSentence;
     private float defaultCountdownTime;
 
     // Create a reference to the start state
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
         StartGame();
         RestartGame();
         CheckPlayerInput();
-        
+
         if (player.hasFallen)
         {
             PlayerRespawn();
@@ -88,10 +89,14 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    CountdownUi.gameObject.SetActive(false);
-                    startingGame = false;
                     Time.timeScale = 1;
-                    timer.ResetTimer();
+                    CountdownUi.text = goSentence;
+                    CountdownUi.alpha -= Time.deltaTime;
+                    if (CountdownUi.alpha <= 0)
+                    {
+                        CountdownUi.gameObject.SetActive(false);
+                        startingGame = false;
+                    }
                 }
                 break;
             case false:
