@@ -19,11 +19,13 @@ public class GameManager : MonoBehaviour
     // Create a reference to the timer
     [Header("Timer")]
     [SerializeField] Timer timer;
+    [SerializeField] TextMeshProUGUI UiTimerText;
     [SerializeField] TextMeshProUGUI CountdownUi;
 
     // Create a reference to the fall count
     [Header("Fall")]
     [SerializeField] int fallCount = 0;
+    [SerializeField] int definitiveFallCount = 0;
     [SerializeField] TextMeshProUGUI fallCountUi;
 
     // Create a reference to the start state
@@ -34,9 +36,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] string goSentence;
     private float defaultCountdownTime;
 
-    // Create a reference to the start state
+    // Create a reference to the restart state
     [Header("Restart")]
     [SerializeField] bool restartingGame;
+
+    // Create a reference to the finish state
+    [Header("Finish")]
+    [SerializeField] string finishSentence;
+    [SerializeField] string finishFallSentence;
+    [SerializeField] TextMeshProUGUI finishUi;
 
     private void Awake()
     {
@@ -56,6 +64,7 @@ public class GameManager : MonoBehaviour
         startingGame = false;
         CountdownUi.text = countdownSentence;
         defaultCountdownTime = countdownTime;
+        finishUi.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -64,6 +73,8 @@ public class GameManager : MonoBehaviour
         StartGame();
         RestartGame();
         CheckPlayerInput();
+
+        UiTimerText.text = timer.FormatTime();
 
         if (player.hasFallen)
         {
@@ -124,6 +135,7 @@ public class GameManager : MonoBehaviour
             player.hasFallen = false;
             player.hasFinished = false;
             fallCount = 0;
+            definitiveFallCount = 0;
             fallCountUi.text = fallCount.ToString();
 
             restartingGame = false;
@@ -132,19 +144,21 @@ public class GameManager : MonoBehaviour
 
     private void PlayerRespawn()
     {
-            playerRb.velocity = Vector3.zero;
-            playerRb.angularVelocity = Vector3.zero;
-            player.transform.position = playerSpawn.position;
-            fallCount++;
-            fallCountUi.text = fallCount.ToString();
-            player.hasFallen = false;
+        playerRb.velocity = Vector3.zero;
+        playerRb.angularVelocity = Vector3.zero;
+        player.transform.position = playerSpawn.position;
+        fallCount++;
+        fallCountUi.text = fallCount.ToString();
+        player.hasFallen = false;
     }
 
     private void Finish()
     {
-            player.hasFinished = false;
-            timer.stopTimer = true;
-            Debug.Log(timer.time);
+        definitiveFallCount = fallCount;
+        player.hasFinished = false;
+        timer.stopTimer = true;
+        finishUi.gameObject.SetActive(true);
+        finishUi.text = finishSentence + timer.FormatTime() + "\n" + finishFallSentence + definitiveFallCount.ToString();
     }
 
     private void CheckPlayerInput()

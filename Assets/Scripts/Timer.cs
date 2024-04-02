@@ -12,8 +12,6 @@ public class Timer : MonoBehaviour
 
     public bool stopTimer = false;
 
-    [SerializeField] TextMeshProUGUI UiTimerText;
-
     private void Awake()
     {
         Instance = this;
@@ -40,7 +38,7 @@ public class Timer : MonoBehaviour
         }
     }
 
-    public void FormatTime()
+    public string FormatTime()
     {
         int minutes = Mathf.FloorToInt(time / 60F);
         int seconds = Mathf.FloorToInt(time - minutes * 60);
@@ -48,7 +46,7 @@ public class Timer : MonoBehaviour
 
         string format = string.Format("{0:00}:{1:00}.{2:000}", minutes, seconds, milliseconds);
 
-        UiTimerText.text = format;
+        return format;
     }
 
     public void ResetTimer()
