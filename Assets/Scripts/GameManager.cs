@@ -139,6 +139,7 @@ public class GameManager : MonoBehaviour
             timer.ResetTimer();
             startingGame = false;
             gameStarted = false;
+            gameFinished = false;
             CountdownUi.text = countdownSentence;
             countdownTime = defaultCountdownTime;
             CountdownUi.gameObject.SetActive(true);
