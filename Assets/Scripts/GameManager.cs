@@ -28,9 +28,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] int definitiveFallCount = 0;
     [SerializeField] TextMeshProUGUI fallCountUi;
 
+    [Header("State")]
+    [SerializeField] public bool gameStarted;
+
     // Create a reference to the start state
     [Header("Start")]
-    [SerializeField] bool startingGame;
+    [SerializeField] public bool startingGame;
+    [SerializeField] public bool isPaused;
     [SerializeField] float countdownTime;
     [SerializeField] string countdownSentence;
     [SerializeField] string goSentence;
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
         playerRb = player.GetComponent<Rigidbody>();
         playerRb.position = playerSpawn.position;
 
+        isPaused = false;
         timer = Timer.Instance;
         timer.ResetTimer();
 
@@ -94,7 +99,10 @@ public class GameManager : MonoBehaviour
             case true:
                 if (countdownTime > 0)
                 {
-                    countdownTime -= Time.unscaledDeltaTime;
+                    if (!isPaused)
+                    {
+                        countdownTime -= Time.unscaledDeltaTime;
+                    }
                     int delay = Mathf.CeilToInt(countdownTime);
                     CountdownUi.text = delay.ToString();
                     timer.ResetTimer();
@@ -108,6 +116,7 @@ public class GameManager : MonoBehaviour
                     {
                         CountdownUi.gameObject.SetActive(false);
                         startingGame = false;
+                        gameStarted = true;
                     }
                 }
                 break;
@@ -128,6 +137,7 @@ public class GameManager : MonoBehaviour
             timer.stopTimer = false;
             timer.ResetTimer();
             startingGame = false;
+            gameStarted = false;
             CountdownUi.text = countdownSentence;
             countdownTime = defaultCountdownTime;
             CountdownUi.gameObject.SetActive(true);

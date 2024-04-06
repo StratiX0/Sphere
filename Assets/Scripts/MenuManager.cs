@@ -6,20 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
+
     [Header("Menu")]
     [SerializeField] GameObject menu;
     [SerializeField] GameObject Ui;
-    [SerializeField] bool isPaused;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.Instance;
         menu = GameObject.FindWithTag("Menu");
         Ui = GameObject.FindWithTag("Ui");
         if (SceneManager.GetActiveScene().name != "Main Menu")
         {
             menu.SetActive(false);
-            isPaused = false;
         }
         else
         {
@@ -36,7 +37,7 @@ public class MenuManager : MonoBehaviour
             case "Main Menu":
                 break;
             case "Level 01":
-                if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+                if (Input.GetKeyDown(KeyCode.Escape) && !gameManager.isPaused)
                 {
                     PauseGame();
                 }
@@ -49,16 +50,19 @@ public class MenuManager : MonoBehaviour
     }
     public void ContinueGame()
     {
-        Time.timeScale = 1;
         Ui.SetActive(true);
         menu.SetActive(false);
-        isPaused = false;
+        gameManager.isPaused = false;
+        if (gameManager.gameStarted)
+        {
+            Time.timeScale = 1;
+        }
     }
 
     public void PauseGame()
     {
+        gameManager.isPaused = true;
         Time.timeScale = 0;
-        isPaused = true;
         menu.SetActive(true);
         Ui.SetActive(false);
     }
