@@ -30,11 +30,12 @@ public class GameManager : MonoBehaviour
 
     [Header("State")]
     [SerializeField] public bool gameStarted;
+    [SerializeField] public bool isPaused;
+    [SerializeField] public bool gameFinished;
 
     // Create a reference to the start state
     [Header("Start")]
     [SerializeField] public bool startingGame;
-    [SerializeField] public bool isPaused;
     [SerializeField] float countdownTime;
     [SerializeField] string countdownSentence;
     [SerializeField] string goSentence;
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour
     private void Finish()
     {
         definitiveFallCount = fallCount;
+        gameFinished = true;
         player.hasFinished = false;
         timer.stopTimer = true;
         finishUi.gameObject.SetActive(true);

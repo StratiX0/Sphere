@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    [Header("Game Manager")]
     [SerializeField] GameManager gameManager;
 
     [Header("Menu")]
