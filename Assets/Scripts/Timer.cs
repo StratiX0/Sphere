@@ -44,7 +44,7 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(time - minutes * 60);
         int milliseconds = Mathf.FloorToInt((time - minutes * 60 - seconds) * 1000);
 
-        string format = string.Format("{0:00}:{1:00}.{2:000}", minutes, seconds, milliseconds);
+        string format = string.Format("<mspace=0.65em>{0:00}:{1:00}.{2:000}", minutes, seconds, milliseconds);
 
         return format;
     }
